@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings - JobLinker</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="image.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="image.jpg" type="image/x-icon">
+
+    <style>
+        /* ===== CSS RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Color Palette */
+            --primary-blue: #2563eb;
+            --primary-blue-dark: #1d4ed8;
+            --primary-blue-light: #eff6ff;
+            
+            /* Success Colors */
+            --success-green: #10b981;
+            --success-green-light: #d1fae5;
+            
+            /* Submit Button Color */
+            --submit-green: #10b981;
+            --submit-green-light: #d1fae5;
+            --submit-green-dark: #059669;
+            
+            /* Neutral Colors */
+            --bg-white: #ffffff;
+            --bg-light: #f9fafb;
+            --bg-gray: #f3f4f6;
+            
+            /* Text Colors */
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --text-light: #9ca3af;
+            
+            /* Border Colors */
+            --border-light: #e5e7eb;
+            --border-gray: #d1d5db;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        /* ===== LAYOUT ===== */
+        .app-layout {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            padding: 0 var(--space-md);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-right: 100px;
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        .main-nav {
+            display: flex;
+            gap:020px;
+            
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-sm) var(--space-md);
+            color: var(--text-gray);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-gray);
+            color: var(--text-dark);
+        }
+
+        .nav-link.active {
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: var(--space-xl) 0;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: var(--space-sm);
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-gray);
+            margin-bottom: var(--space-xl);
+        }
+
+        /* Search Section */
+        .search-section {
+            background: var(--bg-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .search-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: var(--space-lg);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+        }
+
+        @media (max-width: 768px) {
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .search-input-group {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 2.5rem;
+            font-size: 0.875rem;
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius-md);
+            background: var(--bg-white);
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        select.search-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.25em 1.25em;
+            padding-right: 2.5rem;
+        }
+
+        .search-button {
+            grid-column: 1 / -1;
+            padding: 0.875rem 2rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .search-button:hover {
+            background: var(--primary-blue-dark);
+        }
+
+        @media (min-width: 769px) {
+            .search-button {
+                grid-column: 4;
+            }
+        }
+
+        /* ===== JOB LISTINGS ===== */
+        .job-listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+        }
+
+        @media (max-width: 768px) {
+            .job-listings {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Job Card */
+        .job-card {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-blue);
+        }
+
+        .job-card-header {
+            margin-bottom: var(--space-md);
+        }
+
+        .job-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: var(--space-xs);
+            line-height: 1.3;
+        }
+
+        .job-company {
+            font-size: 0.875rem;
+            color: var(--primary-blue);
+            font-weight: 500;
+            margin-bottom: var(--space-xs);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .job-location {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-sm);
+        }
+
+        .job-salary {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--success-green);
+            margin-bottom: var(--space-lg);
+        }
+
+        /* Skills Tags */
+        .job-skills {
+            margin-bottom: var(--space-lg);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-sm);
+        }
+
+        .skill-tag {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--border-light);
+        }
+
+        .skill-tag.highlight {
+            background: var(--success-green-light);
+            color: var(--success-green);
+            border-color: var(--success-green);
+        }
+
+        .more-skills {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-top: var(--space-xs);
+        }
+
+        /* Matched Skills Badge */
+        .matched-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: 0.375rem 0.75rem;
+            background: var(--success-green-light);
+            color: var(--success-green);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: var(--space-md);
+        }
+
+        .matched-badge i {
+            font-size: 0.875rem;
+        }
+
+        /* Deadline */
+        .job-deadline {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--border-light);
+            margin-top: var(--space-lg);
+        }
+
+        .job-deadline i {
+            color: var(--primary-blue);
+        }
+
+        /* Apply Button */
+        .apply-button {
+            width: 100%;
+            padding: 0.875rem;
+            background: var(--submit-green);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+        }
+
+        .apply-button:hover {
+            background: var(--submit-green-dark);
+        }
+
+        /* Job Count */
+        .job-count {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+
+        .job-count strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            padding: var(--space-2xl) 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr repeat(3, auto);
+            gap: var(--space-2xl);
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl);
+            }
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-tagline {
+            color: #d1d5db;
+            margin-top: var(--space-sm);
+            font-size: 0.875rem;
+        }
+
+        .footer-column h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--space-xs);
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding: var(--space-lg) 0;
+            border-top: 1px solid #374151;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .footer-bottom p:first-child {
+            margin-bottom: var(--space-xs);
+        }
+
+        /* ===== MODAL STYLES ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .modal-header {
+            padding: var(--space-lg);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-gray);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: var(--bg-gray);
+        }
+        
+        .modal-body {
+            padding: var(--space-lg);
+        }
+        
+        .modal-footer {
+            padding: var(--space-lg);
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            gap: var(--space-sm);
+            justify-content: flex-end;
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: var(--space-xs);
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+        
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        
+        .file-input-container {
+            position: relative;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            background: var(--bg-white);
+            cursor: pointer;
+        }
+        
+        .file-input::file-selector-button {
+            background: var(--bg-gray);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            margin-right: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-cancel {
+            background: var(--bg-gray);
+            color: var(--text-gray);
+        }
+        
+        .btn-cancel:hover {
+            background: var(--border-gray);
+        }
+        
+        .btn-submit {
+            background: var(--submit-green);
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            background: var(--submit-green-dark);
+        }
+        
+        /* HR Email Info */
+        .hr-email-info {
+            background: var(--primary-blue-light);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--space-sm) var(--space-md);
+            margin-bottom: var(--space-lg);
+            font-size: 0.875rem;
+        }
+        
+        .hr-email-info strong {
+            color: var(--primary-blue);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-20px); opacity: 0; }
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .w-100 { width: 100%; }
+        .mt-1 { margin-top: var(--space-xs); }
+        .mt-2 { margin-top: var(--space-sm); }
+        .mt-3 { margin-top: var(--space-md); }
+        .mt-4 { margin-top: var(--space-lg); }
+        .mt-5 { margin-top: var(--space-xl); }
+
+        .mb-1 { margin-bottom: var(--space-xs); }
+        .mb-2 { margin-bottom: var(--space-sm); }
+        .mb-3 { margin-bottom: var(--space-md); }
+        .mb-4 { margin-bottom: var(--space-lg); }
+        .mb-5 { margin-bottom: var(--space-xl); }
+
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-content {
+                height: 60px;
+                padding: 0 var(--space-sm);
+            }
+            
+            .logo-text {
+                font-size: 1.25rem;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+            
+            .nav-link {
+                padding: var(--space-sm);
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .search-section {
+                padding: var(--space-lg);
+            }
+            
+            .job-card {
+                padding: var(--space-lg);
+            }
+            
+            .modal {
+                width: 95%;
+                margin: var(--space-sm);
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: var(--space-2xl);
+            color: var(--text-gray);
+            grid-column: 1 / -1;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+            color: var(--border-gray);
+        }
+    </style>
+</head>
+<body class="app-layout">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="#" class="logo">
+                    <i class="fas fa-stream logo-icon"></i>
+                    <span class="logo-text">JobLinker</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="main-nav">
+                    <a href="admin.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="hr dashboard.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>HR Dashboard</span>
+                    </a>
+                    <a href="job-listings.html" class="nav-link active">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Job Listings</span>
+                    </a>
+                      <a href="company.html" class="nav-link">
+                        <i class="fas fa-building"></i>
+                        <span>My Company</span>
+                    </a>
+                    <a href="job-seeker-profile.html" class="nav-link">
+                        <i class="fas fa-building"></i>
+                        <span>My Profile</span>
+                    </a>
+                </nav>
+
+                <!-- User Menu -->
+                <div class="user-menu">
+                    <div class="user-avatar">JS</div>
+                    <span class="user-name">John Smith</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1 class="page-title">Job Listings</h1>
+                <p class="hero-subtitle">Find Your Next Opportunity</p>
+                <p class="hero-subtitle" style="font-size: 1rem; color: var(--text-gray);">
+                    Search by keywords, location, skills, and more.
+                </p>
+            </section>
+
+            <!-- Search Section -->
+            <section class="search-section">
+                <h2 class="search-title">Search Jobs</h2>
+                <form id="jobSearchForm" class="search-form">
+                    <div class="search-input-group">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" 
+                               placeholder="Search by title, company, or keyword">
+                    </div>
+                    
+                    <div class="search-input-group">
+                        <i class="fas fa-map-marker-alt search-icon"></i>
+                        <select class="search-input">
+                            <option value="">Location</option>
+                            <option value="san-francisco">San Francisco, CA</option>
+                            <option value="new-york">New York, NY</option>
+                            <option value="remote">Remote, USA</option>
+                            <option value="london">London, UK</option>
+                            <option value="austin">Austin, TX</option>
+                            <option value="seattle">Seattle, WA</option>
+                        </select>
+                    </div>
+                    
+                    <div class="search-input-group">
+                        <i class="fas fa-code search-icon"></i>
+                        <select class="search-input">
+                            <option value="">Skills</option>
+                            <option value="react">React</option>
+                            <option value="typescript">TypeScript</option>
+                            <option value="nodejs">Node.js</option>
+                            <option value="python">Python</option>
+                            <option value="aws">AWS</option>
+                            <option value="sql">SQL</option>
+                            <option value="docker">Docker</option>
+                        </select>
+                    </div>
+                    
+                    <div class="search-input-group">
+                        <i class="fas fa-chart-line search-icon"></i>
+                        <select class="search-input">
+                            <option value="">Experience Level</option>
+                            <option value="entry">Entry Level</option>
+                            <option value="mid">Mid Level</option>
+                            <option value="senior">Senior Level</option>
+                            <option value="lead">Lead/Manager</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i> Search Jobs
+                    </button>
+                </form>
+            </section>
+
+            <!-- Job Count -->
+            <div class="job-count">
+                Showing <strong>4</strong> of <strong>124</strong> jobs
+            </div>
+
+            <!-- Job Listings Grid -->
+            <div class="job-listings" id="jobListings">
+                <!-- Job 1: Senior Frontend Developer -->
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <h3 class="job-title">Senior Frontend Developer</h3>
+                        <div class="job-company">
+                            <i class="fas fa-building"></i>
+                            Innovate Solutions
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Chennai,Tamilnadu.
+                        </div>
+                        <div class="job-salary">
+                           10 LPA
+                        </div>
+                    </div>
+                    
+                    <div class="job-skills">
+                        <div class="skill-tags">
+                            <span class="skill-tag highlight">React</span>
+                            <span class="skill-tag highlight">TypeScript</span>
+                            <span class="skill-tag">JavaScript</span>
+                        </div>
+                        <div class="more-skills">+5 more skills</div>
+                    </div>
+                    
+                    <div class="matched-badge">
+                        <i class="fas fa-check-circle"></i>
+                        Matched to your skills
+                    </div>
+                    
+                    <div class="job-deadline">
+                        <i class="fas fa-calendar-alt"></i>
+                        Deadline: 31-03-2024
+                    </div>
+                    
+                    <button class="apply-button" data-job-id="1">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </button>
+                </div>
+
+                <!-- Job 2: Cloud Solutions Architect -->
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <h3 class="job-title">Cloud Solutions Architect</h3>
+                        <div class="job-company">
+                            <i class="fas fa-building"></i>
+                            Global Tech
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Mumbai,India.
+                        </div>
+                        <div class="job-salary">
+                           12 LPA
+                        </div>
+                    </div>
+                    
+                    <div class="job-skills">
+                        <div class="skill-tags">
+                            <span class="skill-tag">AWS</span>
+                            <span class="skill-tag">Azure</span>
+                            <span class="skill-tag">GCP</span>
+                        </div>
+                        <div class="more-skills">+14 more skills</div>
+                    </div>
+                    
+                    <div class="job-deadline">
+                        <i class="fas fa-calendar-alt"></i>
+                        Deadline: 25-03-2024
+                    </div>
+                    
+                    <button class="apply-button" data-job-id="2">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </button>
+                </div>
+
+                <!-- Job 3: Product Manager -->
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <h3 class="job-title">Product Manager</h3>
+                        <div class="job-company">
+                            <i class="fas fa-building"></i>
+                            Future Innovations
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Kochi,Kerala.
+                        </div>
+                        <div class="job-salary">
+                           8 LPA
+                        </div>
+                    </div>
+                    
+                    <div class="job-skills">
+                        <div class="skill-tags">
+                            <span class="skill-tag highlight">Product Management</span>
+                            <span class="skill-tag">Agile</span>
+                            <span class="skill-tag">Market Research</span>
+                        </div>
+                        <div class="more-skills">+13 more skills</div>
+                    </div>
+                    
+                    <div class="matched-badge">
+                        <i class="fas fa-check-circle"></i>
+                        Matched to your skills
+                    </div>
+                    
+                    <div class="job-deadline">
+                        <i class="fas fa-calendar-alt"></i>
+                        Deadline: 01-05-2024
+                    </div>
+                    
+                    <button class="apply-button" data-job-id="3">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </button>
+                </div>
+
+                <!-- Job 4: Data Scientist -->
+                <div class="job-card">
+                    <div class="job-card-header">
+                        <h3 class="job-title">Data Scientist</h3>
+                        <div class="job-company">
+                            <i class="fas fa-building"></i>
+                            Quantum Insights
+                        </div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Austin, TX
+                        </div>
+                        <div class="job-salary">
+                            $125,000 - $155,000
+                        </div>
+                    </div>
+                    
+                    <div class="job-skills">
+                        <div class="skill-tags">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">R</span>
+                            <span class="skill-tag">SQL</span>
+                        </div>
+                        <div class="more-skills">+4 more skills</div>
+                    </div>
+                    
+                    <div class="job-deadline">
+                        <i class="fas fa-calendar-alt"></i>
+                        Deadline: 2024-04-10
+                    </div>
+                    
+                    <button class="apply-button" data-job-id="4">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Footer Content -->
+            <div class="footer-content">
+                <div class="footer-grid">
+                    <!-- Brand Column -->
+                    <div class="footer-brand">
+                        <p class="footer-tagline">
+                            Streamlining recruitment for a brighter future.
+                        </p>
+                    </div>
+
+                    <!-- Company Links -->
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <nav class="main-nav">
+                    <a href="admin.html" class="nav-link active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="hr dashboard.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>HR Accounts</span>
+                    </a>
+                    <a href="job-listing.html" class="nav-link">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Job Seekers</span>
+                    </a>
+                </nav>
+                    </div>
+
+                    <!-- Support Links -->
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Resources Links -->
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul class="footer-links">
+                            <li><a href="hr dashboard.html">Hr</a></li>
+                            <li><a href="job-listing.html">Job Seeker</a></li>
+                            <li><a href="#">Community</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>Terms of Service</p>
+                <p>© 2025 JobLinker. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Job Search Form
+            const jobSearchForm = document.getElementById('jobSearchForm');
+            const jobListings = document.getElementById('jobListings');
+            const jobCards = document.querySelectorAll('.job-card');
+            const jobCount = document.querySelector('.job-count strong');
+            
+            // Initial job count
+            let visibleJobs = jobCards.length;
+            updateJobCount();
+            
+            // Form submission
+            jobSearchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                jobListings.classList.add('loading');
+                
+                // Get search values
+                const searchTerm = this.querySelector('input[type="text"]').value.toLowerCase();
+                const location = this.querySelector('select:nth-of-type(1)').value;
+                const skills = this.querySelector('select:nth-of-type(2)').value;
+                const experience = this.querySelector('select:nth-of-type(3)').value;
+                
+                // Simulate search delay
+                setTimeout(() => {
+                    filterJobs(searchTerm, location, skills, experience);
+                    jobListings.classList.remove('loading');
+                }, 500);
+            });
+            
+            function filterJobs(searchTerm, location, skills, experience) {
+                let visibleCount = 0;
+                
+                jobCards.forEach(card => {
+                    const jobTitle = card.querySelector('.job-title').textContent.toLowerCase();
+                    const jobCompany = card.querySelector('.job-company').textContent.toLowerCase();
+                    const jobLocation = card.querySelector('.job-location').textContent.toLowerCase();
+                    
+                    let matches = true;
+                    
+                    // Search term filter
+                    if (searchTerm && !jobTitle.includes(searchTerm) && !jobCompany.includes(searchTerm)) {
+                        matches = false;
+                    }
+                    
+                    // Location filter
+                    if (location && !jobLocation.includes(location.toLowerCase().replace('-', ' '))) {
+                        matches = false;
+                    }
+                    
+                    // Show/hide based on matches
+                    if (matches) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                visibleJobs = visibleCount;
+                updateJobCount();
+                
+                // Show no results message if needed
+                if (visibleCount === 0) {
+                    showNoResults();
+                } else {
+                    hideNoResults();
+                }
+            }
+            
+            function updateJobCount() {
+                if (jobCount) {
+                    jobCount.textContent = visibleJobs;
+                }
+            }
+            
+            function showNoResults() {
+                let noResults = document.querySelector('.no-results');
+                if (!noResults) {
+                    noResults = document.createElement('div');
+                    noResults.className = 'no-results';
+                    noResults.innerHTML = `
+                        <i class="fas fa-search"></i>
+                        <h3>No jobs found</h3>
+                        <p>Try adjusting your search criteria</p>
+                    `;
+                    jobListings.appendChild(noResults);
+                }
+            }
+            
+            function hideNoResults() {
+                const noResults = document.querySelector('.no-results');
+                if (noResults) {
+                    noResults.remove();
+                }
+            }
+            
+            // Apply Now buttons
+            const applyButtons = document.querySelectorAll('.apply-button');
+            
+            applyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const jobId = this.getAttribute('data-job-id');
+                    const jobTitle = this.closest('.job-card').querySelector('.job-title').textContent;
+                    const company = this.closest('.job-card').querySelector('.job-company').textContent;
+                    
+                    // Get HR email based on job (in real app, this would come from database)
+                    let hrEmail = '';
+                    switch(jobId) {
+                        case '1':
+                            hrEmail = 'hr@innovatesolutions.com'; // Innovate Solutions
+                            break;
+                        case '2':
+                            hrEmail = 'careers@globaltech.com'; // Global Tech
+                            break;
+                        case '3':
+                            hrEmail = 'talent@futureinnovations.com'; // Future Innovations
+                            break;
+                        case '4':
+                            hrEmail = 'recruitment@quantuminsights.com'; // Quantum Insights
+                            break;
+                        default:
+                            hrEmail = 'hr@company.com';
+                    }
+                    
+                    // Show application modal
+                    showApplicationModal(jobId, jobTitle, company, hrEmail);
+                });
+            });
+            
+            function showApplicationModal(jobId, jobTitle, company, hrEmail) {
+                // User data (in real app, this would come from user profile)
+                const userData = {
+                    name: "John Smith",
+                    email: "john.smith@example.com"
+                };
+                
+                // Create modal HTML
+                const modalHTML = `
+                    <div class="modal-overlay">
+                        <div class="modal">
+                            <div class="modal-header">
+                                <h3><i class="fas fa-paper-plane" style="margin-right: 0.5rem;"></i> Submit Application</h3>
+                                <button class="modal-close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="hr-email-info">
+                                    <i class="fas fa-envelope" style="margin-right: 0.5rem; color: var(--primary-blue);"></i>
+                                    This application will be sent directly to: <strong>${hrEmail}</strong>
+                                </div>
+                                
+                                <p style="margin-bottom: var(--space-lg); color: var(--text-gray);">
+                                    Applying for <strong>${jobTitle}</strong> at <strong>${company}</strong>
+                                </p>
+                                
+                                <form id="applicationForm">
+                                    <div class="form-group">
+                                        <label for="applicantName">Full Name *</label>
+                                        <input type="text" id="applicantName" class="form-input" 
+                                               value="${userData.name}" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="applicantEmail">Email Address *</label>
+                                        <input type="email" id="applicantEmail" class="form-input" 
+                                               value="${userData.email}" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="coverLetter">Cover Letter *</label>
+                                        <textarea id="coverLetter" class="form-input" 
+                                                  placeholder="Tell us why you're the perfect candidate for this position..." 
+                                                  required></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="resumeUpload">Upload Resume *</label>
+                                        <div class="file-input-container">
+                                            <input type="file" id="resumeUpload" class="file-input" 
+                                                   accept=".pdf,.doc,.docx" required>
+                                            <small style="display: block; margin-top: 0.5rem; color: var(--text-gray);">
+                                                Accepted formats: PDF, DOC, DOCX (Max 5MB)
+                                            </small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-cancel">Cancel</button>
+                                        <button type="submit" class="btn btn-submit">
+                                            <i class="fas fa-paper-plane" style="margin-right: 0.5rem;"></i> Submit Application
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add modal to page
+                const modalContainer = document.createElement('div');
+                modalContainer.innerHTML = modalHTML;
+                document.body.appendChild(modalContainer);
+                
+                // Modal functionality
+                const modalOverlay = document.querySelector('.modal-overlay');
+                const closeBtn = document.querySelector('.modal-close');
+                const cancelBtn = document.querySelector('.btn-cancel');
+                const applicationForm = document.getElementById('applicationForm');
+                const submitBtn = applicationForm.querySelector('.btn-submit');
+                
+                function closeModal() {
+                    modalOverlay.style.animation = 'fadeOut 0.3s ease';
+                    modalOverlay.querySelector('.modal').style.animation = 'slideOut 0.3s ease';
+                    
+                    setTimeout(() => {
+                        modalContainer.remove();
+                    }, 300);
+                }
+                
+                closeBtn.addEventListener('click', closeModal);
+                cancelBtn.addEventListener('click', closeModal);
+                
+                // Form submission
+                applicationForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const name = document.getElementById('applicantName').value;
+                    const email = document.getElementById('applicantEmail').value;
+                    const coverLetter = document.getElementById('coverLetter').value;
+                    const resumeFile = document.getElementById('resumeUpload').files[0];
+                    
+                    // Basic validation
+                    if (!name.trim() || !email.trim() || !coverLetter.trim()) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+                    
+                    // Email validation
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert('Please enter a valid email address');
+                        return;
+                    }
+                    
+                    // File validation
+                    if (!resumeFile) {
+                        alert('Please upload your resume');
+                        return;
+                    }
+                    
+                    // File size validation (5MB limit)
+                    const maxSize = 5 * 1024 * 1024; // 5MB
+                    if (resumeFile.size > maxSize) {
+                        alert('File size exceeds 5MB limit. Please upload a smaller file.');
+                        return;
+                    }
+                    
+                    // File type validation
+                    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                    if (!allowedTypes.includes(resumeFile.type)) {
+                        alert('Please upload a PDF, DOC, or DOCX file');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i> Sending...';
+                    
+                    // Simulate sending email to HR (in real app, this would call a backend API)
+                    setTimeout(() => {
+                        // Create email content
+                        const emailContent = `
+                            New Job Application Received
+                            
+                            Position: ${jobTitle}
+                            Company: ${company}
+                            
+                            Applicant Details:
+                            - Name: ${name}
+                            - Email: ${email}
+                            
+                            Cover Letter:
+                            ${coverLetter}
+                            
+                            Resume: ${resumeFile.name}
+                            
+                            This application was submitted through RecruitFlow.
+                        `;
+                        
+                        // In a real application, you would:
+                        // 1. Upload the resume file to storage
+                        // 2. Send email to HR using your backend (Node.js, PHP, etc.)
+                        // 3. Store application in database
+                        
+                        // For demo purposes, we'll show the email that would be sent
+                        console.log('Email would be sent to:', hrEmail);
+                        console.log('Email content:', emailContent);
+                        
+                        // Success message
+                        alert(`✅ Application submitted successfully!\n\nYour application for "${jobTitle}" at ${company} has been sent to the HR department.\n\nThe HR team will contact you at ${email} if your profile matches their requirements.`);
+                        
+                        // Reset button state
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane" style="margin-right: 0.5rem;"></i> Submit Application';
+                        
+                        // Close modal
+                        closeModal();
+                        
+                        // Update button on job card to show "Applied" status
+                        const applyBtn = document.querySelector(`.apply-button[data-job-id="${jobId}"]`);
+                        if (applyBtn) {
+                            applyBtn.innerHTML = '<i class="fas fa-check-circle"></i> Applied';
+                            applyBtn.style.backgroundColor = 'var(--text-gray)';
+                            applyBtn.disabled = true;
+                            applyBtn.style.cursor = 'default';
+                        }
+                    }, 2000);
+                });
+                
+                // Close on overlay click
+                modalOverlay.addEventListener('click', function(e) {
+                    if (e.target === modalOverlay) {
+                        closeModal();
+                    }
+                });
+            }
+            
+            // Initialize skill matching highlight
+            const userSkills = ['React', 'TypeScript', 'Product Management', 'JavaScript'];
+            
+            document.querySelectorAll('.skill-tag').forEach(tag => {
+                if (userSkills.includes(tag.textContent)) {
+                    tag.classList.add('highlight');
+                }
+            });
+            
+            // Update matched badges based on highlighted skills
+            document.querySelectorAll('.job-card').forEach(card => {
+                const highlightedSkills = card.querySelectorAll('.skill-tag.highlight');
+                const matchedBadge = card.querySelector('.matched-badge');
+                
+                if (highlightedSkills.length > 0 && !matchedBadge) {
+                    const badge = document.createElement('div');
+                    badge.className = 'matched-badge';
+                    badge.innerHTML = '<i class="fas fa-check-circle"></i> Matched to your skills';
+                    card.querySelector('.job-skills').after(badge);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

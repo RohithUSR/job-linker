@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobLinker - Admin Dashboard</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="image.jpg" style="border-radius: 20px;" type="image/x-icon">
+    
+    <style>
+        /* ===== CSS RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Color Palette */
+            --primary-blue: #2563eb;
+            --primary-blue-dark: #1d4ed8;
+            --primary-blue-light: #eff6ff;
+            
+            /* Status Colors */
+            --status-active: #10b981;
+            --status-active-bg: #d1fae5;
+            --status-suspended: #ef4444;
+            --status-suspended-bg: #fee2e2;
+            --status-pending: #f59e0b;
+            --status-pending-bg: #fef3c7;
+            --status-verified: #3b82f6;
+            --status-verified-bg: #dbeafe;
+            --status-hold: #6b7280;
+            --status-hold-bg: #f3f4f6;
+            
+            /* Neutral Colors */
+            --bg-white: #ffffff;
+            --bg-light: #f9fafb;
+            --bg-gray: #f3f4f6;
+            
+            /* Text Colors */
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --text-light: #9ca3af;
+            
+            /* Border Colors */
+            --border-light: #e5e7eb;
+            --border-gray: #d1d5db;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 0.75rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        /* ===== LAYOUT ===== */
+        .app-layout {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            padding: 0 var(--space-md);
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        .main-nav {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-sm) var(--space-md);
+            color: var(--text-gray);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-gray);
+            color: var(--text-dark);
+        }
+
+        .nav-link.active {
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            position: relative;
+        }
+
+        .user-menu:hover {
+            background: var(--bg-gray);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-avatar.small {
+            width: 32px;
+            height: 32px;
+            font-size: 0.875rem;
+        }
+
+        /* Logout Dropdown */
+        .logout-dropdown {
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background: var(--bg-white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+            width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .logout-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            color: var(--text-dark);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--bg-light);
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            color: var(--text-gray);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--border-light);
+            margin: var(--space-xs) 0;
+        }
+
+        .logout-item {
+            color: var(--status-suspended);
+        }
+
+        .logout-item i {
+            color: var(--status-suspended);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: var(--space-xl) 0;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: var(--space-2xl);
+            text-align: center;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 3fr);
+            gap: var(--space-2xl);
+            width: 70%;
+            margin-bottom: var(--space-2xl);
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 3fr;
+            }
+        }
+
+        /* ===== SECTION STYLES ===== */
+        .section {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            width:140%;
+            padding: var(--space-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Add Button */
+        .add-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: 0.5rem 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .add-btn:hover {
+            background: var(--primary-blue-dark);
+        }
+
+        /* Search and Filter */
+        .section-controls {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            width: 200px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius-md);
+            background: var(--bg-white);
+            transition: border-color 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            background: var(--bg-white);
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            min-width: 140px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        /* ===== DATA TABLE ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead {
+            background: var(--bg-gray);
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .data-table th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid var(--border-light);
+            transition: background-color 0.2s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--bg-light);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-dark);
+        }
+
+        /* User Info in Table */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            white-space: nowrap;
+        }
+
+        .status-active {
+            background: var(--status-active-bg);
+            color: var(--status-active);
+        }
+
+        .status-suspended {
+            background: var(--status-suspended-bg);
+            color: var(--status-suspended);
+        }
+
+        .status-pending {
+            background: var(--status-pending-bg);
+            color: var(--status-pending);
+        }
+
+        .status-verified {
+            background: var(--status-verified-bg);
+            color: var(--status-verified);
+        }
+
+        .status-hold {
+            background: var(--status-hold-bg);
+            color: var(--status-hold);
+        }
+
+        /* ===== MODAL STYLES ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            padding: var(--space-lg);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-gray);
+        }
+
+        .modal-body {
+            padding: var(--space-lg);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-xs);
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-dark);
+        }
+
+        .btn-secondary {
+            background: var(--bg-gray);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-gray);
+        }
+
+        /* Action Buttons in Table */
+        .action-buttons {
+            display: flex;
+            gap: var(--space-xs);
+        }
+
+        .action-btn {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .view-btn {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: var(--primary-blue-dark);
+        }
+
+        .edit-btn {
+            background: var(--status-pending-bg);
+            color: var(--status-pending);
+        }
+
+        .edit-btn:hover {
+            background: var(--status-pending);
+            color: white;
+        }
+
+        .delete-btn {
+            background: var(--status-suspended-bg);
+            color: var(--status-suspended);
+        }
+
+        .delete-btn:hover {
+            background: var(--status-suspended);
+            color: white;
+        }
+
+        /* ===== RECENT ACTIVITY ===== */
+        .recent-activity {
+            background: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            margin-top: var(--space-2xl);
+        }
+
+        .recent-activity .section-title {
+            margin-bottom: var(--space-xl);
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+
+        .activity-item:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            padding: var(--space-2xl) 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr repeat(3, auto);
+            gap: var(--space-2xl);
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl);
+            }
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-tagline {
+            color: #d1d5db;
+            margin-top: var(--space-sm);
+            font-size: 0.875rem;
+        }
+
+        .footer-column h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--space-xs);
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding: var(--space-lg) 0;
+            border-top: 1px solid #374151;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .footer-bottom p:first-child {
+            margin-bottom: var(--space-xs);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-left { text-align: left; }
+
+        .mt-1 { margin-top: var(--space-xs); }
+        .mt-2 { margin-top: var(--space-sm); }
+        .mt-3 { margin-top: var(--space-md); }
+        .mt-4 { margin-top: var(--space-lg); }
+        .mt-5 { margin-top: var(--space-xl); }
+
+        .mb-1 { margin-bottom: var(--space-xs); }
+        .mb-2 { margin-bottom: var(--space-sm); }
+        .mb-3 { margin-bottom: var(--space-md); }
+        .mb-4 { margin-bottom: var(--space-lg); }
+        .mb-5 { margin-bottom: var(--space-xl); }
+
+        .w-100 { width: 100%; }
+        .d-flex { display: flex; }
+        .align-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-1 { gap: var(--space-xs); }
+        .gap-2 { gap: var(--space-sm); }
+        .gap-3 { gap: var(--space-md); }
+        .gap-4 { gap: var(--space-lg); }
+
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-content {
+                height: 60px;
+                padding: 0 var(--space-sm);
+            }
+            
+            .logo-text {
+                font-size: 1.25rem;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+            
+            .nav-link {
+                padding: var(--space-sm);
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .section {
+                padding: var(--space-lg);
+            }
+            
+            .section-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .search-box,
+            .filter-select {
+                width: 100%;
+            }
+            
+            .data-table {
+                display: block; 
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .logout-dropdown {
+                right: 10px;
+                width: 180px;
+            }
+        }
+    </style>
+</head>
+<body class="app-layout">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="#" class="logo">
+                    <i class="fas fa-stream logo-icon"></i>
+                    <span class="logo-text">JobLinker</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="main-nav">
+                    <a href="admin.html" class="nav-link active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="hr dashboard.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>HR Accounts</span>
+                    </a>
+                    <a href="job-listing.html" class="nav-link">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Job Seekers</span>
+                    </a>
+                </nav>
+
+                <!-- User Menu -->
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar">AD</div>
+                    <span class="user-name">Admin User</span>
+                    <i class="fas fa-chevron-down" style="font-size: 0.875rem; color: var(--text-gray);"></i>
+                </div>
+
+                <!-- Logout Dropdown -->
+                <div class="logout-dropdown" id="logoutDropdown">
+                    <div class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item logout-item" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Title -->
+            <h1 class="page-title">JobLinker Admin Dashboard</h1>
+            <div class="info" style="background-color:rgb(239, 232, 232); margin-left: 20px;
+            height: 45px;align-items: center;border-radius: 20px;padding: 1px;">
+                <h2 style="font-size: 20px;margin-left: 400px;margin-top: 10px;">Admin-Email :<span style="font-size: 20px;">JobLinkerAdmin@joblinker.com</span></h2>
+            </div><br>
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- HR Accounts Section -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">HR Accounts</h2>
+                        <div class="section-controls">
+                            <button class="add-btn" id="addHrBtn">
+                                <i class="fas fa-plus"></i>
+                                <span>Add HR Account</span>
+                            </button>
+                            <div class="search-box">
+                                <input type="text" placeholder="Search HRs by name" class="search-input">
+                                <i class="fas fa-search search-icon"></i>
+                            </div>
+                            <select class="filter-select">
+                                <option>All Statuses</option>
+                                <option>Active</option>
+                                <option>Suspended</option>
+                                <option>Pending</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Company</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hrTableBody">
+                                <!-- HR accounts will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                    <br>
+                <!-- Job Seeker Accounts Section -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Job Seeker Accounts</h2>
+                        <div class="section-controls">
+                            <div class="search-box">
+                                <input type="text" placeholder="Search job seekers" class="search-input">
+                                <i class="fas fa-search search-icon"></i>
+                            </div>
+                            <select class="filter-select">
+                                <option>All Statuses</option>
+                                <option>Active</option>
+                                <option>Verified</option>
+                                <option>On Hold</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="user-info">
+                                            <div class="user-avatar small">FG</div>
+                                            <span>Frank Green</span>
+                                        </div>
+                                    </td>
+                                    <td>frank.g@example.com</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-info">
+                                            <div class="user-avatar small">GH</div>
+                                            <span>Grace Hall</span>
+                                        </div>
+                                    </td>
+                                    <td>grace.h@example.com</td>
+                                    <td><span class="status-badge status-verified">Verified</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-info">
+                                            <div class="user-avatar small">HK</div>
+                                            <span>Henry King</span>
+                                        </div>
+                                    </td>
+                                    <td>henry.k@example.com</td>
+                                    <td><span class="status-badge status-hold">On Hold</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-info">
+                                            <div class="user-avatar small">IW</div>
+                                            <span>Ivy White</span>
+                                        </div>
+                                    </td>
+                                    <td>ivy.w@example.com</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-info">
+                                            <div class="user-avatar small">JT</div>
+                                            <span>Jack Taylor</span>
+                                        </div>
+                                    </td>
+                                    <td>jack.t@example.com</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn">View</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Recent Activity Section -->
+            <section class="recent-activity">
+                <h2 class="section-title">Recent Activity</h2>
+                
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p class="activity-text">New HR user "Jane Doe" registered.</p>
+                            <span class="activity-time">5 mins ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p class="activity-text">Job "Senior Frontend Developer" posted by Acme Corp.</p>
+                            <span class="activity-time">1 hour ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p class="activity-text">Job Seeker "John Smith" updated profile.</p>
+                            <span class="activity-time">3 hours ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p class="activity-text">Admin approved new company "Global Solutions Inc".</p>
+                            <span class="activity-time">1 day ago</span>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="activity-content">
+                            <p class="activity-text">Job "Product Manager" received 10 new applications.</p>
+                            <span class="activity-time">2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Footer Content -->
+            <div class="footer-content">
+                <div class="footer-grid">
+                    <!-- Brand Column -->
+                    <div class="footer-brand">
+                        <p class="footer-tagline">
+                            Streamlining recruitment for a brighter future.
+                        </p>
+                    </div>
+
+                    <!-- Company Links -->
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <nav class="main-nav">
+                    <a href="admin.html" class="nav-link active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="hr dashboard.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>HR Accounts</span>
+                    </a>
+                    <a href="job-listing.html" class="nav-link">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Job Seekers</span>
+                    </a>
+                </nav>
+                    </div>
+
+                    <!-- Support Links -->
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Resources Links -->
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul class="footer-links">
+                            <li><a href="hr dashboard.html">Hr</a></li>
+                            <li><a href="job-listing.html">Job Seeker</a></li>
+                            <li><a href="#">Community</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>Terms of Service</p>
+                <p>© 2025 JobLinker. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add HR Account Modal -->
+    <div class="modal-overlay" id="hrModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New HR Account</h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="hrForm">
+                    <div class="form-group">
+                        <label class="form-label" for="hrName">Full Name *</label>
+                        <input type="text" id="hrName" class="form-input" placeholder="Enter full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="hrEmail">Email Address *</label>
+                        <input type="email" id="hrEmail" class="form-input" placeholder="Enter email address" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="hrCompany">Company Name *</label>
+                            <input type="text" id="hrCompany" class="form-input" placeholder="Enter company name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="hrPhone">Phone Number *</label>
+                            <input type="tel" id="hrPhone" class="form-input" placeholder="Enter phone number" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="hrStatus">Account Status *</label>
+                        <select id="hrStatus" class="form-input" required>
+                            <option value="">Select status</option>
+                            <option value="Active">Active</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add HR Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // HR Accounts Data
+            let hrAccounts = [
+                {
+                    id: 1,
+                    name: "Alice Johnson",
+                    email: "alice.j@example.com",
+                    company: "Tech Solutions Inc",
+                    phone: "+1 (555) 123-4567",
+                    status: "Active",
+                    initials: "AJ"
+                },
+                {
+                    id: 2,
+                    name: "Bob Williams",
+                    email: "bob.w@example.com",
+                    company: "Global Enterprises",
+                    phone: "+1 (555) 987-6543",
+                    status: "Suspended",
+                    initials: "BW"
+                },
+                {
+                    id: 3,
+                    name: "Carol Davis",
+                    email: "carol.d@example.com",
+                    company: "Innovate Corp",
+                    phone: "+1 (555) 456-7890",
+                    status: "Active",
+                    initials: "CD"
+                },
+                {
+                    id: 4,
+                    name: "David Lee",
+                    email: "david.l@example.com",
+                    company: "FutureTech Ltd",
+                    phone: "+1 (555) 234-5678",
+                    status: "Pending",
+                    initials: "DL"
+                },
+                {
+                    id: 5,
+                    name: "Eve Brown",
+                    email: "eve.b@example.com",
+                    company: "Digital Solutions",
+                    phone: "+1 (555) 876-5432",
+                    status: "Active",
+                    initials: "EB"
+                }
+            ];
+
+            // DOM Elements
+            const hrTableBody = document.getElementById('hrTableBody');
+            const hrModal = document.getElementById('hrModal');
+            const addHrBtn = document.getElementById('addHrBtn');
+            const closeModal = document.getElementById('closeModal');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const hrForm = document.getElementById('hrForm');
+            const hrSearchInput = document.querySelector('.section:nth-child(1) .search-input');
+            const hrFilterSelect = document.querySelector('.section:nth-child(1) .filter-select');
+            const userMenu = document.getElementById('userMenu');
+            const logoutDropdown = document.getElementById('logoutDropdown');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            // Initialize HR table
+            renderHRTable();
+
+            // User menu dropdown functionality
+            userMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+                logoutDropdown.classList.toggle('show');
+            });
+
+            // Close dropdown when clicking logout
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    alert('Logging out... Redirecting to login page.');
+                    logoutDropdown.classList.remove('show');
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userMenu.contains(e.target) && !logoutDropdown.contains(e.target)) {
+                    logoutDropdown.classList.remove('show');
+                }
+            });
+
+            // Modal functionality
+            addHrBtn.addEventListener('click', () => {
+                hrModal.classList.add('show');
+                resetForm();
+            });
+
+            closeModal.addEventListener('click', () => {
+                hrModal.classList.remove('show');
+            });
+
+            cancelBtn.addEventListener('click', () => {
+                hrModal.classList.remove('show');
+            });
+
+            // Close modal when clicking outside
+            hrModal.addEventListener('click', (e) => {
+                if (e.target === hrModal) {
+                    hrModal.classList.remove('show');
+                }
+            });
+
+            // Form submission
+            hrForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('hrName').value;
+                const email = document.getElementById('hrEmail').value;
+                const company = document.getElementById('hrCompany').value;
+                const phone = document.getElementById('hrPhone').value;
+                const status = document.getElementById('hrStatus').value;
+                
+                // Generate initials
+                const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
+                
+                // Create new HR account
+                const newAccount = {
+                    id: hrAccounts.length + 1,
+                    name,
+                    email,
+                    company,
+                    phone,
+                    status,
+                    initials
+                };
+                
+                // Add to array
+                hrAccounts.unshift(newAccount);
+                
+                // Update table
+                renderHRTable();
+                
+                // Close modal
+                hrModal.classList.remove('show');
+                
+                // Show success message
+                alert('HR account added successfully!');
+                
+                // Add to recent activity
+                addRecentActivity(`New HR account "${name}" from "${company}" added.`);
+            });
+
+            // Search functionality for HR Accounts
+            hrSearchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                filterHRTable(searchTerm, hrFilterSelect.value);
+            });
+
+            // Filter functionality for HR Accounts
+            hrFilterSelect.addEventListener('change', function(e) {
+                const status = e.target.value;
+                filterHRTable(hrSearchInput.value.toLowerCase(), status);
+            });
+
+            // Function to render HR table
+            function renderHRTable() {
+                hrTableBody.innerHTML = '';
+                
+                hrAccounts.forEach(account => {
+                    const row = document.createElement('tr');
+                    row.setAttribute('data-id', account.id);
+                    
+                    // Determine status class
+                    let statusClass = 'status-active';
+                    if (account.status === 'Suspended') statusClass = 'status-suspended';
+                    if (account.status === 'Pending') statusClass = 'status-pending';
+                    
+                    row.innerHTML = `
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar small">${account.initials}</div>
+                                <span>${account.name}</span>
+                            </div>
+                        </td>
+                        <td>${account.email}</td>
+                        <td>${account.company}</td>
+                        <td>${account.phone}</td>
+                        <td><span class="status-badge ${statusClass}">${account.status}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn view-btn" onclick="viewHR(${account.id})">View</button>
+                                <button class="action-btn edit-btn" onclick="editHR(${account.id})">Edit</button>
+                                <button class="action-btn delete-btn" onclick="deleteHR(${account.id})">Delete</button>
+                            </div>
+                        </td>
+                    `;
+                    
+                    hrTableBody.appendChild(row);
+                });
+            }
+
+            // Function to filter HR table
+            function filterHRTable(searchTerm, statusFilter) {
+                const rows = hrTableBody.querySelectorAll('tr');
+                
+                rows.forEach(row => {
+                    const name = row.querySelector('.user-info span').textContent.toLowerCase();
+                    const email = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    const company = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    const phone = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                    const rowStatus = row.querySelector('.status-badge').textContent;
+                    
+                    const matchesSearch = searchTerm === '' || 
+                        name.includes(searchTerm) || 
+                        email.includes(searchTerm) ||
+                        company.includes(searchTerm) ||
+                        phone.includes(searchTerm);
+                    
+                    const matchesStatus = statusFilter === 'All Statuses' || rowStatus === statusFilter;
+                    
+                    if (matchesSearch && matchesStatus) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            // Function to reset form
+            function resetForm() {
+                hrForm.reset();
+            }
+
+            // Function to add recent activity
+            function addRecentActivity(text) {
+                const activityList = document.querySelector('.activity-list');
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p class="activity-text">${text}</p>
+                        <span class="activity-time">Just now</span>
+                    </div>
+                `;
+                
+                // Add to the top
+                activityList.insertBefore(activityItem, activityList.firstChild);
+                
+                // Remove the last item if there are more than 5
+                if (activityList.children.length > 5) {
+                    activityList.removeChild(activityList.lastChild);
+                }
+            }
+
+            // Make functions globally available for inline onclick handlers
+            window.viewHR = function(id) {
+                const account = hrAccounts.find(acc => acc.id === id);
+                alert(`Viewing HR Account:\n\nName: ${account.name}\nEmail: ${account.email}\nCompany: ${account.company}\nPhone: ${account.phone}\nStatus: ${account.status}`);
+            };
+
+            window.editHR = function(id) {
+                const account = hrAccounts.find(acc => acc.id === id);
+                if (confirm(`Edit HR account: ${account.name}?`)) {
+                    // In a real app, you would open an edit modal
+                    // For now, we'll just show an alert
+                    alert(`Editing HR Account ID: ${id}\n\nIn a real application, this would open an edit form with pre-filled data.`);
+                }
+            };
+
+            window.deleteHR = function(id) {
+                const account = hrAccounts.find(acc => acc.id === id);
+                if (confirm(`Are you sure you want to delete HR account:\n${account.name} (${account.company})?`)) {
+                    hrAccounts = hrAccounts.filter(acc => acc.id !== id);
+                    renderHRTable();
+                    alert('HR account deleted successfully!');
+                    addRecentActivity(`HR account "${account.name}" from "${account.company}" deleted.`);
+                }
+            };
+
+            // Job Seekers functionality (existing code)
+            const jsSearchInput = document.querySelector('.section:nth-child(2) .search-input');
+            const jsTableRows = document.querySelector('.section:nth-child(2) tbody').querySelectorAll('tr');
+            const jsFilterSelect = document.querySelector('.section:nth-child(2) .filter-select');
+            
+            jsSearchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                jsTableRows.forEach(row => {
+                    const name = row.querySelector('.user-info span').textContent.toLowerCase();
+                    const email = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    
+                    if (name.includes(searchTerm) || email.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+            
+            jsFilterSelect.addEventListener('change', function(e) {
+                const status = e.target.value;
+                
+                jsTableRows.forEach(row => {
+                    const rowStatus = row.querySelector('.status-badge').textContent;
+                    
+                    if (status === 'All Statuses' || rowStatus === status) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Table row hover effect
+            const allTableRows = document.querySelectorAll('tbody tr');
+            
+            allTableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = 'var(--bg-light)';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Status badges tooltip
+            const statusBadges = document.querySelectorAll('.status-badge');
+            
+            statusBadges.forEach(badge => {
+                badge.addEventListener('mouseenter', function() {
+                    this.style.cursor = 'pointer';
+                    this.style.transform = 'scale(1.05)';
+                });
+                
+                badge.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                
+                badge.addEventListener('click', function() {
+                    const status = this.textContent;
+                    alert(`Filtering by status: ${status}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

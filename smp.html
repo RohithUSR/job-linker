@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile Preview</title>
+
+  <!-- CSS -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #1e40af;
+    }
+
+    .profile-card {
+      margin-top: 20px;
+      background: #e5e7eb;
+      padding: 15px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .profile-card p {
+      margin: 6px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Profile Form</h2>
+
+  <div class="container">
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="role" placeholder="Role (HR / Job Seeker)">
+    <input type="text" id="skills" placeholder="Skills (comma separated)">
+    
+    <button onclick="showProfile()">Submit</button>
+
+    <div class="profile-card" id="profileCard">
+      <h3>Profile Preview</h3>
+      <p><strong>Name:</strong> <span id="pName"></span></p>
+      <p><strong>Email:</strong> <span id="pEmail"></span></p>
+      <p><strong>Role:</strong> <span id="pRole"></span></p>
+      <p><strong>Skills:</strong> <span id="pSkills"></span></p>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function showProfile() {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const role = document.getElementById("role").value;
+      const skills = document.getElementById("skills").value;
+
+      if (!name || !email || !role || !skills) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      document.getElementById("pName").innerText = name;
+      document.getElementById("pEmail").innerText = email;
+      document.getElementById("pRole").innerText = role;
+      document.getElementById("pSkills").innerText = skills;
+
+      document.getElementById("profileCard").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>

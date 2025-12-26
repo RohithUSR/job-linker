@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Details Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #acb5dc 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .hr-panel {
+            background-color: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .panel-header {
+            background: linear-gradient(135deg, #2c3e50, #bfd9eb);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .panel-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .panel-header h1 i {
+            font-size: 2rem;
+        }
+        
+        .panel-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        .hr-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 20px;
+            overflow: hidden;
+            background-color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        .hr-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .hr-title {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .panel-content {
+            padding: 40px 30px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .detail-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .detail-icon.email {
+            color: #e74c3c;
+            background-color: #fdeaea;
+        }
+        
+        .detail-icon.phone {
+            color: #3498db;
+            background-color: #eaf6fd;
+        }
+        
+        .detail-icon.name {
+            color: #2ecc71;
+            background-color: #eafaf1;
+        }
+        
+        .detail-icon i {
+            font-size: 1.5rem;
+        }
+        
+        .detail-info h3 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .detail-info p {
+            color: #34495e;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+        
+        .detail-info a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .detail-info a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            border: 1px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 600px) {
+            .hr-panel {
+                max-width: 95%;
+            }
+            
+            .panel-header {
+                padding: 20px;
+            }
+            
+            .panel-content {
+                padding: 30px 20px;
+            }
+            
+            .hr-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .detail-icon {
+                margin-right: 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="hr-panel">
+        <div class="panel-header">
+            <h1><i class="fas fa-user-tie"></i> HR Contact Details</h1>
+            <p>Senior Human Resources Manager</p>
+            
+            <div class="hr-avatar">
+                CS
+            </div>
+            
+            <div class="hr-name">Connor Smith</div>
+            <div class="hr-title">Senior HR Manager</div>
+        </div>
+        
+        <div class="panel-content">
+            <div class="detail-item">
+                <div class="detail-icon name">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="detail-info">
+                    <h3>Full Name</h3>
+                    <p>Connor Smith</p>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-icon email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="detail-info">
+                    <h3>Email Address</h3>
+                    <p><a href="mailto:search.connor@innovatetech.com">search.connor@innovatetech.com</a></p>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-icon phone">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="detail-info">
+                    <h3>Phone Number</h3>
+                    <p><a href="tel:+1234567880">+1 (234) 567-880</a></p>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <!-- <button class="btn btn-primary" onclick="sendEmail()">
+                    <i class="fas fa-paper-plane"></i> Send Email
+                </button> -->
+                <!-- <button class="btn btn-secondary" onclick="copyPhone()">
+                    <i class="fas fa-copy"></i> Copy Phone
+                </button> -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendEmail() {
+            window.location.href = "mailto:search.connor@innovatetech.com";
+            alert("Opening email client to contact Connor Smith...");
+        }
+        
+        function copyPhone() {
+            const phoneNumber = "+1 (234) 567-880";
+            navigator.clipboard.writeText(phoneNumber)
+                .then(() => {
+                    alert("Phone number copied to clipboard: " + phoneNumber);
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                    alert("Could not copy phone number. Please copy manually.");
+                });
+        }
+        
+        // Make the avatar show initials from the name
+        document.addEventListener('DOMContentLoaded', function() {
+            const hrName = document.querySelector('.hr-name').textContent;
+            const names = hrName.split(' ');
+            let initials = '';
+            
+            if (names.length >= 2) {
+                initials = names[0].charAt(0) + names[1].charAt(0);
+            } else if (names.length === 1) {
+                initials = names[0].charAt(0);
+            }
+            
+            document.querySelector('.hr-avatar').textContent = initials;
+        });
+    </script>
+</body>
+</html>

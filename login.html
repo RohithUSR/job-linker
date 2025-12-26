@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login & Register</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+body {
+  height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 350px;
+  padding: 30px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  color: white;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+button:hover {
+  background: #1e40af;
+}
+.toggle {
+  text-align: center;
+  margin-top: 10px;
+}
+.toggle a {
+  color: #2563eb;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LOGIN -->
+  <div id="loginBox">
+    <h2>Login</h2>
+    <input type="text" id="loginUser" placeholder="Username">
+    <input type="password" id="loginPass" placeholder="Password">
+
+    <select id="loginRole">
+      <option value="">Select Role</option>
+      <option value="admin">Admin</option>
+      <option value="hr">HR</option>
+      <option value="user">Job Seeker</option>
+    </select>
+
+    <button onclick="login()">Login</button>
+
+    <div class="toggle">
+      New user? <a onclick="showRegister()">Register</a>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="registerBox" class="hidden">
+    <h2>Register</h2>
+    <input type="text" id="regUser" placeholder="Username">
+    <input type="password" id="regPass" placeholder="Password">
+
+    <select id="regRole">
+      <option value="">Select Role</option>
+      <option value="hr">HR</option>
+      <option value="user">Job Seeker</option>
+    </select>
+
+    <button onclick="register()">Register</button>
+
+    <div class="toggle">
+      Already have account? <a onclick="showLogin()">Login</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showRegister() {
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("registerBox").classList.remove("hidden");
+}
+
+function showLogin() {
+  document.getElementById("registerBox").classList.add("hidden");
+  document.getElementById("loginBox").classList.remove("hidden");
+}
+
+function register() {
+  const user = regUser.value;
+  const pass = regPass.value;
+  const role = regRole.value;
+
+  if (!user || !pass || !role) {
+    alert("Fill all fields");
+    return;
+  }
+
+  localStorage.setItem(user, JSON.stringify({ password: pass, role }));
+  alert("Registered successfully!");
+  showLogin();
+}
+
+function login() {
+  const user = loginUser.value;
+  const pass = loginPass.value;
+  const role = loginRole.value;
+
+  // Admin fixed
+  if (user === "admin" && pass === "admin123" && role === "admin") {
+    sessionStorage.setItem("login", "true");
+    sessionStorage.setItem("role", "admin");
+    window.location.href = "admin.html";
+    return;
+  }
+
+  const data = JSON.parse(localStorage.getItem(user));
+  if (!data || data.password !== pass || data.role !== role) {
+    alert("Invalid login");
+    return;
+  }
+
+  sessionStorage.setItem("login", "true");
+  sessionStorage.setItem("role", role);
+
+  if (role === "hr") window.location.href = "hr dashboard.html";
+  else window.location.href = "job-listing.html";
+}
+
+</script>
+
+</body>
+</html>

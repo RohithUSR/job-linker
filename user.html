@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Dashboard – Job Portal</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+}
+header {
+    background: #2563eb;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+.container {
+    display: flex;
+}
+.sidebar {
+    width: 220px;
+    background: #1e293b;
+    color: white;
+    height: 100vh;
+    padding: 20px;
+}
+.sidebar h3 {
+    margin-bottom: 20px;
+}
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #334155;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.sidebar button:hover {
+    background: #2563eb;
+}
+.content {
+    flex: 1;
+    padding: 20px;
+}
+.card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.apply-btn {
+    background: #22c55e;
+    border: none;
+    padding: 6px 12px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.status {
+    font-weight: bold;
+    color: #2563eb;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>User Dashboard – Job Seeker</h2>
+</header>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h3>Hello, Vignesh</h3>
+        <button onclick="showJobs()">Available Jobs</button>
+        <button onclick="showApplications()">My Applications</button>
+        <button onclick="showProfile()">My Profile</button>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content" id="mainContent"></div>
+
+</div>
+
+<script>
+/* =========================
+   SAMPLE DATA
+========================= */
+
+const jobs = [
+    { id: 1, title: "Frontend Developer", company: "TCS", location: "Chennai" },
+    { id: 2, title: "Backend Developer", company: "Infosys", location: "Bangalore" },
+    { id: 3, title: "Full Stack Developer", company: "Wipro", location: "Hyderabad" }
+];
+
+const applications = [];
+
+const userProfile = {
+    name: "Vignesh",
+    email: "vignesh@gmail.com",
+    skills: "HTML, CSS, JavaScript"
+};
+
+/* =========================
+   FUNCTIONS
+========================= */
+
+function showJobs() {
+    let html = `<h3>Available Jobs</h3>`;
+    jobs.forEach(job => {
+        html += `
+        <div class="card">
+            <h4>${job.title}</h4>
+            <p>${job.company} - ${job.location}</p>
+            <button class="apply-btn" onclick="applyJob(${job.id})">Apply</button>
+        </div>`;
+    });
+    mainContent.innerHTML = html;
+}
+
+function applyJob(jobId) {
+    const job = jobs.find(j => j.id === jobId);
+
+    if (applications.some(a => a.id === jobId)) {
+        alert("Already Applied");
+        return;
+    }
+
+    applications.push({ ...job, status: "Applied" });
+    alert("Job Applied Successfully");
+}
+
+function showApplications() {
+    let html = `<h3>My Applications</h3>`;
+
+    if (applications.length === 0) {
+        html += `<p>No applications yet</p>`;
+    } else {
+        applications.forEach(app => {
+            html += `
+            <div class="card">
+                <h4>${app.title}</h4>
+                <p>${app.company}</p>
+                <p class="status">Status: ${app.status}</p>
+            </div>`;
+        });
+    }
+
+    mainContent.innerHTML = html;
+}
+
+function showProfile() {
+    mainContent.innerHTML = `
+    <h3>My Profile</h3>
+    <div class="card">
+        <p><b>Name:</b> ${userProfile.name}</p>
+        <p><b>Email:</b> ${userProfile.email}</p>
+        <p><b>Skills:</b> ${userProfile.skills}</p>
+    </div>`;
+}
+
+/* DEFAULT */
+showJobs();
+</script>
+
+</body>
+</html>
